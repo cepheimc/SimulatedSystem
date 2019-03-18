@@ -38,13 +38,13 @@ namespace lab3_task2
 
         public void Simulation(double time)
         {
-           /* foreach (Element p in list)
+            foreach (Element p in list)
             {
                 if (p.GetType() == typeof(Process2))
                 {
                     p.SetTimeNext(Double.MaxValue);
                 }
-            }*/
+            }
 
             while (tcurr < time)
             {
@@ -54,11 +54,11 @@ namespace lab3_task2
                     if (e.GetTimeNext() < tnext)
                     {
                         tnext = e.GetTimeNext();
+                       // Console.WriteLine($"id {e.GetId()}");
                         even = e.GetId();
-
                     }
                 }
-                // Console.WriteLine($"\nEvent in {list[even].GetName()} time = {tnext}\n");
+               // Console.WriteLine($"\nEvent in even {even} {list[even].GetName()} time = {tnext}\n");
 
                 int i = 0;
                 foreach (Element e in list)

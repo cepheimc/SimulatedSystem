@@ -1,18 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using lab3;
 
 namespace lab3_task2
 {
-    class Creator2 : Creator
+    class Creator2 : Element
     {
         private Random r_next;
-       // private Element[] nextElem;
-
-        private double[] time = {15, 40, 30};
 
         public Creator2(double delay) : base(delay)
         {
@@ -30,30 +24,29 @@ namespace lab3_task2
             double value = r_next.NextDouble();
             if (value < 0.5)
             {
-                nextElem[Doctor]
+               // Console.WriteLine($"Creator passes to {nextElem.ElementAt(0).Value.GetName()}");
+                nextElem.ElementAt(0).Value.InAct(1);
             }
-            if (value < (0.5 + 0.1))
+            else if (value < (0.5 + 0.1))
             {
-                nextElem[0].InAct(2);
+               // Console.WriteLine($"Creator passes to {nextElem.ElementAt(1).Value.GetName()}");
+                nextElem.ElementAt(1).Value.InAct(2);
             }
             else
             {
-                nextElem[0].InAct(3);
+               // Console.WriteLine($"Creator passes to {nextElem.ElementAt(2).Value.GetName()}");
+                nextElem.ElementAt(2).Value.InAct(3);
             }
         }
 
-       /* public override void OutAct()
+        public override void OutAct()
         {
             base.OutAct();
-            
-            double[] values = {0.5, 0.1, 0.4};
-            int patient_type = GetType(values);
-            Console.WriteLine($"Creator {patient_type}");
-            var delay = GetDelay();
-            SetTimeNext(GetTimeCurr() + delay);
-            GetNextElement().SetDelayMean(time[patient_type-1]);
-            GetNextElement().InAct(patient_type);
-        }*/
+
+            var d = GetDelay();
+            SetTimeNext(GetTimeCurr() + d);
+            PickNext();
+        }
 
         public override double Workload(double delta)
         {
@@ -66,31 +59,5 @@ namespace lab3_task2
             return 0.0;
 
         }
-
-        public int GetType(double[] values)
-        {
-            double value = r_next.NextDouble();
-            for (int i = 0; i < values.Length; i++)
-            {
-                value -= values[i];
-                if(value <= 0)
-                {
-                    return i+1;
-                }
-            }
-
-            return 0;
-        }
-
-      /*  public void SetNextElement(Element[] element)
-        {
-            nextElem = element;
-
-        }*/
-
-       /* public Doctor GetNextElement()
-        {
-            return nextElem;
-        }*/
     }
 }

@@ -11,7 +11,6 @@ namespace lab3_task2
             maxState;
 
         public double workload;
-        public List<Element> nextElem;
         private List<double> time = new List<double>();
         public double meanq;
         private Random r_next;
@@ -21,14 +20,17 @@ namespace lab3_task2
 
         public void PickNext(int v)
         {
-
+           // Console.WriteLine($"Picing from {nextElem.Count}");
+                if (nextElem.ContainsKey(v))
+                {
+                   // Console.WriteLine($"{nextElem.FirstOrDefault(x => x.Key == v).Value.GetName()}");
+                    nextElem.FirstOrDefault(x => x.Key == v).Value.InAct(v);
+                }
         }
 
 
         public Process2(double delay, int max) : base(delay, max)
         {
-           // queue = new List<int>();
-           // stateProcess = new List<int>();
             meanq = 0.0;
             maxState = max;
             r_next = new Random(this.GetHashCode() * (int)(DateTime.Now.ToFileTime()));
@@ -36,17 +38,21 @@ namespace lab3_task2
 
         public override void InAct(int type)
         {
-            Console.WriteLine($"IN   name {GetName()} process {type}");
+           // Console.WriteLine($"IN  name {GetName()} process {type}");
             if (stateProcess.Count < maxState)
             {
                 stateProcess.Add(type);
                 var d = GetDelay();
-                SetTimeNext(GetTimeCurr() + d);
+                meanWorkTime += d;
+                meanWorkAmount++;
+                time.Add(GetTimeCurr() + d);
+               // Console.WriteLine($"Addedtime of : {GetTimeCurr() + d}, now state is {time.Count}");
             }
             else
             {
                 if (queue.Count < maxq)
                 {
+                   // Console.WriteLine($"{GetName()} queue {queue.Count}");
                     queue.Add(type);
 
                 }
@@ -56,63 +62,12 @@ namespace lab3_task2
                     failure = failure + 1;
                 }
             }
-
-            Console.WriteLine($"PROCESs IN stateProcess[] count {stateProcess.Count}   queue count {queue.Count}");
-        }
-
-        public override void OutAct()
-        {
-            base.OutAct();
-            int type, queueType;
-
-            SetTimeNext(Double.MaxValue);
+           // Console.WriteLine($"Finishing in act, now tnext is {GetTimeNext()}");
+           // Console.WriteLine("----");
             
-            //if (stateProcess.Count > 0)
-            //{
-                type = stateProcess[0];
-                stateProcess.RemoveAt(0);
-           // }
-
-            if (queue.Count > 0)
-            {
-                queueType = queue[0];
-                queue.RemoveAt(0);
-                    // Console.WriteLine($" name = {GetName()}     QUEUE OUT {queue}");
-                stateProcess.Add(queueType);
-                //time.Add(GetTimeCurr() + GetDelay());
-            }
-
-            Console.WriteLine($"OUT   name {GetName()} process {type}");
-
-            PickNext(type);
-            
-
         }
 
-       /* public override void SetNextElement(List<Element> list)
-        {
-            nextElem = list;
-
-        }
-
-        public override Element GetNextElement()
-        {
-            int i;
-
-            if (nextElem != null)
-            {
-                i = r_next.Next(nextElem.Count);
-                return nextElem[i];
-            }
-
-            else
-            {
-                return base.GetNextElement();
-            }
-
-        }
-
-       /* public override double GetTimeNext()
+        public override double GetTimeNext()
         {
             if (time.Count == 0)
             {
@@ -122,7 +77,40 @@ namespace lab3_task2
             {
                 return time.Min();
             }
-        }*/
+        }
+
+        public override void OutAct()
+        {
+           // base.OutAct();
+            quantity++;
+            int type, queueType;
+
+           // Console.WriteLine($"OUT   name {GetName()}");
+            
+          //  Console.WriteLine($"time in OUT: {time.Count}");
+            int index = time.IndexOf(time.Min());
+            time.Remove(time.Min());
+            type = stateProcess[index];
+            stateProcess.RemoveAt(index);
+
+            if (queue.Count > 0)
+            {
+                queueType = queue[0];
+                queue.RemoveAt(0);
+                    // Console.WriteLine($" name = {GetName()}     QUEUE OUT {queue}");
+                stateProcess.Add(queueType);
+                time.Add(GetTimeCurr() + GetDelay());
+            }
+
+            
+
+            PickNext(type);
+        }
+
+        public double MeanWork()
+        {
+            return meanWorkTime / (meanWorkAmount + 1);
+        }
 
         public void SetMaxQueue(int m)
         {
@@ -133,24 +121,7 @@ namespace lab3_task2
         {
             return maxq;
         }
-
-       /* public void SetQueue(int q)
-        {
-            queue = q;
-        }
-
-        public int GetQueue()
-        {
-            return queue;
-        }*/
-
-        /*public override void WriteInfo()
-        {
-            base.WriteInfo();
-            Console.WriteLine($"   IN: maxState = {maxState}  maxQueue = {maxq}");
-            Console.WriteLine($"   OUT: failure = {failure}   queue = {queue}\n");
-        }*/
-
+        
         public double GetFailure()
         {
             return failure;
@@ -161,7 +132,7 @@ namespace lab3_task2
             return meanq;
         }
 
-       /* public override double Workload(double delta)
+        public override double Workload(double delta)
         {
             workload = workload + (double)(stateProcess.Count) * delta;
             return workload;
@@ -172,6 +143,6 @@ namespace lab3_task2
 
             meanq = meanq + (queue.Count * delta);
             return meanq;
-        }*/
+        }
     }
 }

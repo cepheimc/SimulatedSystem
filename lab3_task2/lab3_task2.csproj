@@ -42,9 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assistant.cs" />
     <Compile Include="Creator2.cs" />
-    <Compile Include="Doctor.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Generator.cs" />
     <Compile Include="Model3.cs" />

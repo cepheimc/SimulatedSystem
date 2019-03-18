@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using lab3;
 
 namespace lab3_task2
 {
@@ -15,66 +11,79 @@ namespace lab3_task2
             c.SetName("Creator");
             c.SetGenerator(1);
 
-            Doctor d = new Doctor(0,2);
-            d.SetName("Doctors");
-            d.SetGenerator(1);
+            Process2 typeOne = new Process2(15, 1);
+            typeOne.SetName("Admin1");
+            typeOne.SetGenerator(1);
 
-            Assistant a = new Assistant(4,2);
-            a.SetDelayDev(2);
-            a.SetDelayDev(2);
-            a.SetName("Lab");
-            a.SetGenerator(4);
+            Process2 typeTwo = new Process2(40, 1);
+            typeTwo.SetName("Admin2");
+            typeTwo.SetGenerator(1);
 
-            Process2 p1 = new Process2(3,3);
-            p1.SetDelayDev(8);
-            p1.SetGenerator(3);
-            p1.SetName("To palata");
+            Process2 typeThree = new Process2(30, 1);
+            typeThree.SetName("Admin3");
+            typeThree.SetGenerator(1); 
 
-            Process2 p2 = new Process2(4.5,1);
-            p2.SetDelayDev(3);
-            p2.SetName("Registration to lab");
-            p2.SetGenerator(4);
+            Process2 toPalats = new Process2(3, 3);
+            toPalats.SetDelayDev(8);
+            toPalats.SetGenerator(3);
+            toPalats.SetName("To palatas");
 
-            c.SetNextElement(d);
-            List<Element> p = new List<Element>();
-            p.Add(p1);
-            p.Add(p2);
+            Process2 toLabs = new Process2(2, 1);
+            toLabs.SetDelayDev(5);
+            toLabs.SetGenerator(3);
+            toLabs.SetName("To labs");
 
-            d.SetNextElement(p);
-            p2.SetNextElement(a);
-            a.SetNextElement(d);
+            Process2 toAdmin = new Process2(2, 1);
+            toAdmin.SetDelayDev(5);
+            toAdmin.SetGenerator(3);
+            toAdmin.SetName("To admin");
 
+            Process2 regToLab = new Process2(4.5, 1);
+            regToLab.SetDelayDev(3);
+            regToLab.SetName("Registration to lab");
+            regToLab.SetGenerator(4);
+
+            Process2 labAnalysis = new Process2(4, 2);
+            labAnalysis.SetDelayDev(2);
+            labAnalysis.SetName("In lab");
+            labAnalysis.SetGenerator(4);
+
+
+            c.SetNextElement(typeOne, 1);
+            c.SetNextElement(typeTwo, 2);
+            c.SetNextElement(typeThree, 3);
+            
+            typeOne.SetNextElement(toPalats, 1);
+            typeTwo.SetNextElement(toLabs, 2);
+            typeThree.SetNextElement(toLabs, 3);
+
+            toLabs.SetNextElement(regToLab, 2);
+            toLabs.SetNextElement(regToLab, 3);
+
+            regToLab.SetNextElement(labAnalysis, 2);
+            regToLab.SetNextElement(labAnalysis, 3);
+
+            labAnalysis.SetNextElement(toAdmin, 2);
+
+            toAdmin.SetNextElement(typeOne, 1);
+            
             List<Element> list = new List<Element>();
             list.Add(c);
-            list.Add(d);
-            list.Add(p1);
-            list.Add(p2);
-            list.Add(a);
+            list.Add(typeOne);
+            list.Add(typeTwo);
+            list.Add(typeThree);
+            list.Add(toPalats);
+            list.Add(toLabs);
+            list.Add(toAdmin);
+            list.Add(regToLab);
+            list.Add(labAnalysis);
 
             Model3 m = new Model3(list);
-            m.Simulation(144.0);
+            m.Simulation(1440.0);
 
-            int ii = 0;
-
-            foreach (Element e in list)
-            {
-                if (e.GetType() == typeof(Process2))
-                {
-                    Process2 pp = (Process2)e;
-                    string outputinfo = ($"name = {e.GetName()}  mean queue = {m.meanq[ii]:f8}   " +
-                                         $"workload = {m.workload[ii]:f8}  wait = {m.wait[ii]:f8}   failure = {pp.failure}" +
-                                         $"    quantity = {e.quantity}");
-                    Console.WriteLine(outputinfo);
-                    
-                }
-                else
-                {
-                    string outputinfo = ($"name = {e.GetName()}  quantity = {e.quantity}");
-                    Console.WriteLine(outputinfo);
-                }
-
-                ii++;
-            }
+            Console.WriteLine($"Mean time for type 1: {m.wait[0] + typeOne.MeanWork() + toPalats.MeanWork() + m.wait[3]}");
+            Console.WriteLine($"Mean time for type 2: {m.wait[0] + m.wait[1] + m.wait[3] + m.wait[4] + m.wait[5] + m.wait[6] + m.wait[7] + typeOne.MeanWork() + toPalats.MeanWork()+ typeTwo.MeanWork() + toLabs.MeanWork() + regToLab.MeanWork() + labAnalysis.MeanWork() + toAdmin.MeanWork()}");
+            Console.WriteLine($"Mean time for type 3: {m.wait[2] + m.wait[4] + m.wait[6] + m.wait[7] + typeThree.MeanWork() + toLabs.MeanWork() + regToLab.MeanWork() + labAnalysis.MeanWork()}");
 
             Console.ReadKey();
         }

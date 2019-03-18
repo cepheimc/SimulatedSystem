@@ -11,8 +11,7 @@ namespace lab3_task2
             delayDev;
 
         private static int nextId;
-
-        //public int state;
+        
         private Generator g;
 
        public int quantity,
@@ -21,7 +20,7 @@ namespace lab3_task2
 
         private string name;
 
-        public Dictionary<Element, int> nextElem;
+        public Dictionary<int, Element> nextElem;
 
         public Element()
         {
@@ -36,8 +35,7 @@ namespace lab3_task2
         public Element(double daley)
         {
             tcurr = tnext = 0.0;
-           // state = 0;
-            nextElem = new Dictionary<Element, int>();
+            nextElem = new Dictionary<int, Element>();
             id = nextId;
             nextId++;
             delayMean = daley;
@@ -126,19 +124,16 @@ namespace lab3_task2
             return state;
         }*/
 
-        public virtual void SetNextElement(Element e)
+        public void SetNextElement(Element e, int type)
         {
-            nextElem.Add(e, 1);
+           // Console.WriteLine($"this: {GetName()} id : {GetId()} next: {e.GetName()} id {e.GetId()}");
+            nextElem.Add(type, e);
         }
 
         public void PickNext()
         {
 
         }
-      /*  public virtual Element GetNextElement()
-        {
-            return nextElem;
-        }*/
 
         public void SetTimeNext(double t)
         {
@@ -170,12 +165,6 @@ namespace lab3_task2
             Console.WriteLine($"{name} quantity: {quantity}");
         }
 
-       /* public virtual void WriteInfo()
-        {
-            Console.WriteLine($"\nIN: {name}\n   IN: delay = {delayMean} \n" +
-                              $"   OUT: state - {state} quantity: {quantity} Tnext = {tnext}");
-        }*/
-
         public string GetName()
         {
             return name;
@@ -197,33 +186,5 @@ namespace lab3_task2
         }
     }
 
-    public class Creator : Element
-    {
-        public Creator(double delay) : base(delay)
-        {
-
-        }
-
-
-        public override void OutAct()
-        {
-            base.OutAct();
-            // Console.WriteLine($"name = {GetName()}     state - {state}");
-            var delay = GetDelay();
-            SetTimeNext(GetTimeCurr() + delay);
-            PickNext();
-        }
-
-        public override double Workload(double delta)
-        {
-            return 0.0;
-
-        }
-
-        public override double MeanQueue(double delta)
-        {
-            return 0.0;
-
-        }
-    }
+    
 }

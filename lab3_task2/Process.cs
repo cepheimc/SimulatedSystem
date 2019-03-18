@@ -14,10 +14,11 @@ namespace lab3_task2
             maxState, state;
 
         public double workload;
-        private Dictionary<Element, double> nextElem;
+        private Dictionary<Element, int> nextElem;
         private List<double> time = new List<double>();
         public double meanq;
         private Random r_next;
+        public double meanWorkTime = 0, meanWorkAmount = 0;
 
 
         public Process(double delay, int max) : base(delay)
@@ -37,6 +38,8 @@ namespace lab3_task2
             {
                 state = state + 1;
                 var d = GetDelay();
+                meanWorkTime += d;
+                meanWorkAmount++;
                 time.Add(GetTimeCurr() + d);
             }
             else
@@ -53,75 +56,7 @@ namespace lab3_task2
             }
 
         }
-
-        public void OutAct()
-        {
-            base.OutAct();
-            state = state - 1;
-
-            time.Remove(time.Min());
-
-            if (queue > 0)
-            {
-                queue = queue - 1;
-                state = state + 1;
-                time.Add(GetTimeCurr() + GetDelay());
-            }
-
-
-           // Element e = GetNextElement();
-
-           // if (e != null)
-           // {
-
-                PickNext();
-           // }
-
-        }
-
-       /* public override void SetNextElement(Dictionary<Element, double> list)
-        {
-            nextElem = list;
-
-        }
-
-        public override Element GetNextElement()
-        {
-            if (nextElem != null)
-            {
-                double value = r_next.NextDouble();
-                for (int i = 0; i < nextElem.Count; i++)
-                {
-                    value -= nextElem.Values.ElementAt(i);
-                    if (value <= 0)
-                    {
-                        return nextElem.Keys.ElementAt(i);
-                    }
-                }
-
-                return null;
-            }
-
-            else
-            {
-                return base.GetNextElement();
-            }
-
-            //return null;
-        }*/
-
-        public override double GetTimeNext()
-        {
-            if (time.Count == 0)
-            {
-                return Double.MaxValue;
-            }
-            else
-            {
-                return time.Min();
-            }
-        }
-
+        
         public void SetMaxQueue(int m)
         {
             maxq = m;
@@ -142,13 +77,6 @@ namespace lab3_task2
             return queue;
         }
 
-       /* public override void WriteInfo()
-        {
-            base.WriteInfo();
-            Console.WriteLine($"   IN: maxState = {maxState}  maxQueue = {maxq}");
-            Console.WriteLine($"   OUT: failure = {failure}   queue = {queue}\n");
-        }*/
-
         public double GetFailure()
         {
             return failure;
@@ -159,7 +87,7 @@ namespace lab3_task2
             return meanq;
         }
 
-        public override double Workload(double delta)
+       /* public override double Workload(double delta)
         {
             workload = workload + (double)(state) * delta;
             return workload;
@@ -171,6 +99,6 @@ namespace lab3_task2
             meanq = meanq + (queue * delta);
 
             return meanq;
-        }
+        }*/
     }
 }
