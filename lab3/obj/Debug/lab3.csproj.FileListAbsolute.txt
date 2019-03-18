@@ -1,0 +1,7 @@
+E:\SimulatedSystem\MC\lab3\lab3\bin\Debug\lab3.exe.config
+E:\SimulatedSystem\MC\lab3\lab3\bin\Debug\lab3.exe
+E:\SimulatedSystem\MC\lab3\lab3\bin\Debug\lab3.pdb
+E:\SimulatedSystem\MC\lab3\lab3\obj\Debug\lab3.csprojAssemblyReference.cache
+E:\SimulatedSystem\MC\lab3\lab3\obj\Debug\lab3.csproj.CoreCompileInputs.cache
+E:\SimulatedSystem\MC\lab3\lab3\obj\Debug\lab3.exe
+E:\SimulatedSystem\MC\lab3\lab3\obj\Debug\lab3.pdb

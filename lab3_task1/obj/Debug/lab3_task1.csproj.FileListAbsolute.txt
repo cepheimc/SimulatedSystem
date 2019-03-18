@@ -1,0 +1,11 @@
+E:\SimulatedSystem\MC\lab3\lab3_task1\bin\Debug\lab3_task1.exe.config
+E:\SimulatedSystem\MC\lab3\lab3_task1\bin\Debug\lab3_task1.exe
+E:\SimulatedSystem\MC\lab3\lab3_task1\bin\Debug\lab3_task1.pdb
+E:\SimulatedSystem\MC\lab3\lab3_task1\bin\Debug\lab3.exe
+E:\SimulatedSystem\MC\lab3\lab3_task1\bin\Debug\lab3.pdb
+E:\SimulatedSystem\MC\lab3\lab3_task1\bin\Debug\lab3.exe.config
+E:\SimulatedSystem\MC\lab3\lab3_task1\obj\Debug\lab3_task1.csprojAssemblyReference.cache
+E:\SimulatedSystem\MC\lab3\lab3_task1\obj\Debug\lab3_task1.csproj.CoreCompileInputs.cache
+E:\SimulatedSystem\MC\lab3\lab3_task1\obj\Debug\lab3_task1.csproj.CopyComplete
+E:\SimulatedSystem\MC\lab3\lab3_task1\obj\Debug\lab3_task1.exe
+E:\SimulatedSystem\MC\lab3\lab3_task1\obj\Debug\lab3_task1.pdb
